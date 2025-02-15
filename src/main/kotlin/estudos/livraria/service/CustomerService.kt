@@ -27,7 +27,7 @@ class CustomerService {
         customers.add(customer)
     }
 
-    fun getCustomer(id: String): CustomerModel {
+    fun getById(id: Int): CustomerModel {
         return customers.filter { it.id == id }.first()
     }
 
