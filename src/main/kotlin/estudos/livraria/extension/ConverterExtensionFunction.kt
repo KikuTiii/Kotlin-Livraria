@@ -7,13 +7,14 @@ import estudos.livraria.controller.request.PostCustomerRequest
 import estudos.livraria.controller.request.PutBookRequest
 import estudos.livraria.controller.request.PutCustomerRequest
 import estudos.livraria.enums.BookStatus
+import estudos.livraria.enums.CustomerStatus
 
 fun PostCustomerRequest.toCustomerModel(): CustomerModel {
-    return CustomerModel(name = this.name, email = this.name)
+    return CustomerModel(name = this.name, email = this.name, status = CustomerStatus.ATIVO)
 }
 
-fun PutCustomerRequest.toCustomerModel(id: String): CustomerModel {
-    return CustomerModel(id = this.id, name = this.name, email = this.name)
+fun PutCustomerRequest.toCustomerModel(previousValue: CustomerModel): CustomerModel {
+    return CustomerModel(id = this.id, name = this.name, email = this.email, status = previousValue.status)
 }
 
 fun PostBookRequest.toBookModel(customer: CustomerModel): BookModel {

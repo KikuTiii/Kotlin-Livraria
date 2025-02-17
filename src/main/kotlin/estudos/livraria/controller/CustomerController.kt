@@ -2,6 +2,7 @@ package estudos.livraria.controller
 
 import Model.CustomerModel
 import estudos.livraria.controller.request.PostCustomerRequest
+import estudos.livraria.controller.request.PutCustomerRequest
 import estudos.livraria.extension.toCustomerModel
 import estudos.livraria.service.CustomerService
 import org.springframework.http.HttpStatus
@@ -33,18 +34,19 @@ class CustomerController (val customerService: CustomerService) {
 
     @GetMapping("/{id}")
     fun update(@PathVariable id: Int): CustomerModel {
-        return customerService.getById(id)
+        return customerService.findById(id)
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    fun update(@PathVariable id: String, @RequestBody customer: PostCustomerRequest) {
-        customerService.update(customer.toCustomerModel(id))
+    fun update(@PathVariable id: Int, @RequestBody customer: PutCustomerRequest) {
+        val customerSaved = customerService.findById(id)
+        customerService.update(customer.toCustomerModel(customerSaved))
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    fun delete(@PathVariable id: String) {
+    fun delete(@PathVariable id: Int) {
         customerService.delete(id)
     }
 }
