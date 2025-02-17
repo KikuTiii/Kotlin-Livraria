@@ -1,6 +1,7 @@
 package estudos.livraria.service
 
 import Model.CustomerModel
+import estudos.livraria.enums.CustomerStatus
 import estudos.livraria.repository.CustomerRepository
 import org.springframework.stereotype.Service
 
@@ -34,7 +35,9 @@ class CustomerService(
     fun delete(id: Int){
         val customer = findById(id)
         bookService.deleteByCustomer(customer)
-        customerRepository.deleteById(id)
+
+        customer.status = CustomerStatus.INATIVO
+        customerRepository.save(customer)
     }
 
 }
