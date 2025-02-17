@@ -1,6 +1,7 @@
 package estudos.livraria.service
 
 import Model.BookModel
+import Model.CustomerModel
 import estudos.livraria.enums.BookStatus
 import estudos.livraria.repository.BookRepository
 import org.springframework.stereotype.Service
@@ -30,7 +31,20 @@ class BookService(
 
         book.status = BookStatus.CANCELADO
 
+        update(book)
+    }
+
+    fun update(book: BookModel) {
         bookRepository.save(book)
+    }
+
+    fun deleteByCustomer(customer: CustomerModel) {
+        val books = bookRepository.findByCustomer(customer)
+
+        for(book in books){
+            book.status = BookStatus.DELETADO
+        }
+        bookRepository.saveAll(books)
     }
 
 }

@@ -2,6 +2,7 @@ package estudos.livraria.controller
 
 import Model.BookModel
 import estudos.livraria.controller.request.PostBookRequest
+import estudos.livraria.controller.request.PutBookRequest
 import estudos.livraria.extension.toBookModel
 import estudos.livraria.repository.BookRepository
 import estudos.livraria.service.BookService
@@ -27,8 +28,15 @@ class BookController(
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     fun create(@RequestBody request: PostBookRequest) {
-        val customer = customerService.getById(request.customerId)
+        val customer = customerService.findById(request.customerId)
         bookService.create(request.toBookModel(customer))
+    }
+
+    @PostMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    fun update(@PathVariable id: Int, @RequestBody book: PutBookRequest){
+        val booksaved = bookService.findById(id)
+        bookService.update(book.toBookModel(booksaved))
     }
 
     @GetMapping
